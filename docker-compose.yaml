@@ -1,0 +1,29 @@
+name: "order-app"
+services:
+  ui:
+    image: registry.cn-shenzhen.aliyuncs.com/cnmirror/order-ui:v1.0
+    container_name: order-ui
+    ports:
+      - "8080:80"
+    networks:
+      - order-net
+
+  order-service:
+    image: registry.cn-shenzhen.aliyuncs.com/cnmirror/order-service:v1.0
+    container_name: order-service
+    ports:
+      - "5001:5001"
+    networks:
+      - order-net
+
+  inventory-service:
+    image: registry.cn-shenzhen.aliyuncs.com/cnmirror/inventory-service:v1.0
+    container_name: inventory-service
+    ports:
+      - "5002:5002"
+    networks:
+      - order-net
+
+networks:
+  order-net:
+    driver: bridge
