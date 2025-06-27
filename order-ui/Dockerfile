@@ -7,10 +7,13 @@ COPY index.html /usr/share/nginx/html/index.html.template
 ENV GATEWAY_URL=http://192.168.73.11:8000
 
 # 创建启动脚本
-RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
-    echo 'envsubst '\''$GATEWAY_URL'\'' < /usr/share/nginx/html/index.html.template > /usr/share/nginx/html/index.html' >> /docker-entrypoint.sh && \
-    echo 'exec "$@"' >> /docker-entrypoint.sh && \
-    chmod +x /docker-entrypoint.sh
+RUN cat <<EOF > /docker-entrypoint.sh
+#!/bin/sh
+envsubst '\$GATEWAY_URL' < /usr/share/nginx/html/index.html.template > /usr/share/nginx/html/index.html
+exec "\$@"
+EOF
+RUN chmod +x /docker-entrypoint.sh
+
 
 EXPOSE 80
 
