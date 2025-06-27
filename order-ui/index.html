@@ -8,17 +8,16 @@
   <h1>订单系统</h1>
   <button onclick="createOrder()">创建订单</button>
   <pre id="result"></pre>
-
   <script>
     function createOrder() {
-      fetch('http://192.168.73.11:8000/order/create', { method: 'POST' })
+      fetch('${GATEWAY_URL}/order/create', { method: 'POST' })
         .then(async res => {
           const text = await res.text();
           try {
             const json = JSON.parse(text);
             document.getElementById("result").innerText = JSON.stringify(json, null, 2);
           } catch (err) {
-            console.error("非 JSON 响应内容：", text); // 只打印在控制台
+            console.error("非 JSON 响应内容：", text);
             document.getElementById("result").innerText = 
               "请求失败：服务暂时不可用，请稍后再试。";
           }
@@ -30,6 +29,5 @@
         });
     }
   </script>
-
 </body>
 </html>
